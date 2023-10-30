@@ -1,7 +1,9 @@
 # This is a basic workflow that is manually triggered
 
 name: CI
-on: [push, pull_request]
+# on: [push, pull_request]
+
+on: [push]
 #    push:
 #        branches:
 #          - '!main'
