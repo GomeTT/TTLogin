@@ -1,32 +1,30 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
-on:
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
-        required: true
-        # The data type of the input
-        type: string
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+name: CI
+on: 
+    push:
+        branches:
+          - '!main'
+    pull_request:
+        branches:
+          - 'main'
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
-    # The type of runner that the job will run on
+  check:
+    if: ${{ github.base_ref != github.head_ref && github.ref_type == 'branch'}}
     runs-on: self-hosted
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
+    - name: Check
+      run: echo "${{ github.ref_name}}, ${{ github.ref}}, ${{ github.base_ref}}, ${{ github.head_ref}}, ${{ github.ref_type}}"
+  lint:
+    runs-on: self-hosted
+    steps:
+      - name: lint
+        run: |
+            /Users/shengjie/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.212.1/bin/bundle exec fastlane lint
+  # pub:
+  #   if: ${{ github.base_ref == github.head_ref}}
+  #   runs-on: self-hosted
+  #   needs: [lint]
+  #   steps:
+  #   - name: pub
+  #     run: echo "${{ github.ref_name}}, ${{ github.ref}}, ${{ github.base_ref}}, ${{ github.head_ref}}, ${{ github.ref_type}}"
