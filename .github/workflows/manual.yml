@@ -18,7 +18,7 @@ jobs:
     - name: Check
       run: echo "=========ref_name=${{ github.ref_name}}, ref=${{ github.ref}}, base_ref=${{ github.base_ref}}, head_ref=${{ github.head_ref}}, ref_type=${{ github.ref_type}}"
   lint:
-    if: ${{github.ref_name == 'main' && github.event.pull_request.merged}}
+    if: ${{github.ref_name == 'main'}}
     runs-on: self-hosted
     steps:
       - name: lint
@@ -26,7 +26,7 @@ jobs:
         # run: |
         #     /Users/shengjie/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.212.1/bin/bundle exec fastlane lint
   pub:
-    if: ${{github.ref_name == 'main' && github.event.pull_request.merged}}
+    if: ${{github.ref_name == 'main'}}
     runs-on: self-hosted
     needs: [lint]
     steps:
