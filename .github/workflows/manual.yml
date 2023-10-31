@@ -14,7 +14,7 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Check
-      run: echo "=========ref_name=${{ github.ref_name}}, ref=${{ github.ref}}, base_ref=${{ github.base_ref}}, head_ref=${{ github.head_ref}}, ref_type=${{ github.ref_type}}"
+      run: danger --fail-on-errors=true --verbose
   lint:
     if: ${{github.ref_name == 'main' && startsWith(github.event.head_commit.message, 'Merge pull request')}}
     runs-on: self-hosted
