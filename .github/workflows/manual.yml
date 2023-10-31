@@ -3,13 +3,11 @@
 name: CI
 # on: [push, pull_request]
 
-on: [push]
-#    push:
-#        branches:
-#          - '!main'
-#    pull_request:
-#        branches:
-#          - 'main'
+on:
+   push:
+   pull_request_review:
+    types:
+      - submitted
 jobs:
   check:
     if: ${{github.ref_name != 'main' && github.ref != null}}
