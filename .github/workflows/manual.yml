@@ -11,13 +11,10 @@ on:
 jobs:
   check:
     if: ${{github.ref_name != 'main' && github.ref != null}}
-      action "Danger" {
-         uses = "danger/danger"
-      }
     runs-on: self-hosted
     steps:
     - name: Check
-      # run: /Users/macmini/.rbenv/shims/danger --dangerfile==/Users/macmini/Desktop/TTLogin/Dangerfile --fail-on-errors=true --verbose
+      run: /Users/macmini/.rbenv/shims/danger --dangerfile==/Users/macmini/Desktop/TTLogin/Dangerfile --fail-on-errors=true --verbose
       #run: echo "$pwd"
   lint:
     if: ${{github.ref_name == 'main' && startsWith(github.event.head_commit.message, 'Merge pull request')}}
