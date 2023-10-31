@@ -14,8 +14,8 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Check
-      #run: danger pr --fail-on-errors=true --verbose
-      run: echo "$pwd"
+      run: danger pr --fail-on-errors=true --verbose
+      #run: echo "$pwd"
   lint:
     if: ${{github.ref_name == 'main' && startsWith(github.event.head_commit.message, 'Merge pull request')}}
     runs-on: self-hosted
