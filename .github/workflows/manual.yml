@@ -13,10 +13,11 @@ jobs:
     if: ${{github.ref_name != 'main' && github.ref != null}}
     runs-on: self-hosted
     steps:
-    - name: Check
+      - name: cd
       #run: /Users/macmini/.rbenv/versions/3.1.4/lib/ruby/gems/3.1.0/gems/danger-9.3.2/bin/danger --fail-on-errors=true --verbose
-      run: bundle exec danger
-      #run: echo "$pwd"
+        run: cd ../../
+      - name: exec
+        run: danger
   lint:
     if: ${{github.ref_name == 'main' && startsWith(github.event.head_commit.message, 'Merge pull request')}}
     runs-on: self-hosted
