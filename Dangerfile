@@ -1,26 +1,13 @@
-# commit size
-if danger.git.commits.size > 10
-  warn("提交数应小于10")
-end
+# Sometimes it's a README fix, or something like that - which isn't relevant for
+# including in a project's CHANGELOG for example
+declared_trivial = github.pr_title.include? "#trivial"
 
-# commit title
-commit_title = ["update:", "del:", "feat:", "mod:", "refoctor:", "style:", "debug", "[Update]:", "Update"]
-if !danger.git.commits.first.message.match(/#{commit_title.join("|")}/)
-  warn("提交信息错误 需包含: #{commit_title.join(" 或 ")}")
-end
+# Make it more obvious that a PR is a work in progress and shouldn't be merged yet
+warn("PR is classed as Work in Progress") if github.pr_title.include? "[WIP]"
 
-def check()
-  diff = `git diff --cached --numstat --summary`
-  diff2 = `git diff --numstat --summary`
+# Warn when there is a big PR
+warn("Big PR") if git.lines_of_code > 500
 
-  diff.gsub!(/(mode )[0-9]{1,}/, "")
-  total = 0
-  diff.to_s.scan(/\d{1,3}/).each do |num|
-    total += num.to_i
-  end
-  total
-end
-
-if check > 100
-  warn("请遵循最小commit原则")
-end
+# Don't let testing shortcuts get into master by accident
+fail("fdescribe left in tests") if `grep -r fdescribe specs/ `.length > 1
+fail("fit left in tests") if `grep -r fit specs/ `.length > 1
